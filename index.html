@@ -3,14 +3,625 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Antonio López | FinOps Consulting</title>
+  <title>FinOps & Cloud Negotiation | Santiago, Chile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
-    body { font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 2rem; }
-    h1 { color: #1a1a2e; }
+    :root {
+      --ink: #0d0d0d;
+      --paper: #f5f0e8;
+      --accent: #c8873a;
+      --muted: #6b6560;
+      --line: rgba(13,13,13,0.12);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.4;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.5rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(245,240,232,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.82rem; font-weight: 500; color: var(--muted);
+      text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 80px;
+    }
+
+    .hero-left {
+      padding: 8rem 4rem 6rem;
+      display: flex; flex-direction: column; justify-content: center;
+      border-right: 1px solid var(--line);
+    }
+
+    .hero-eyebrow {
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 5vw, 5.5rem); font-weight: 900; line-height: 1.0;
+      letter-spacing: -0.03em; margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
+    }
+    .hero-title em { font-style: italic; color: var(--accent); }
+
+    .hero-desc {
+      font-size: 1.05rem; font-weight: 300; line-height: 1.7; color: var(--muted);
+      max-width: 420px; margin-bottom: 3rem; opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
+    }
+
+    .hero-ctas {
+      display: flex; gap: 1rem; align-items: center;
+      opacity: 0; animation: fadeUp 0.8s 0.8s forwards;
+    }
+
+    .btn-primary {
+      background: var(--ink); color: var(--paper); padding: 0.9rem 2rem;
+      font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none;
+      border: none; cursor: pointer; transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--accent); transform: translateY(-1px); }
+
+    .btn-secondary {
+      font-size: 0.85rem; font-weight: 500; color: var(--muted); text-decoration: none;
+      border-bottom: 1px solid var(--muted); padding-bottom: 2px; transition: color 0.2s, border-color 0.2s;
+    }
+    .btn-secondary:hover { color: var(--accent); border-color: var(--accent); }
+
+    .hero-right {
+      padding: 8rem 4rem 6rem;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      position: relative; overflow: hidden;
+    }
+
+    .hero-bg-text {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      font-family: 'Playfair Display', serif; font-size: 18vw; font-weight: 900;
+      color: rgba(13,13,13,0.04); white-space: nowrap; pointer-events: none; user-select: none;
+    }
+
+    .hero-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+      opacity: 0; animation: fadeUp 0.8s 1s forwards;
+    }
+
+    .stat-box {
+      padding: 2rem; border: 1px solid var(--line);
+      background: rgba(255,255,255,0.3); transition: background 0.2s;
+    }
+    .stat-box:hover { background: rgba(200,135,58,0.06); }
+
+    .stat-num {
+      font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700;
+      color: var(--ink); letter-spacing: -0.03em;
+    }
+    .stat-num span { color: var(--accent); }
+
+    .stat-label { font-size: 0.78rem; font-weight: 400; color: var(--muted); margin-top: 0.3rem; line-height: 1.4; }
+
+    .section-label {
+      font-size: 0.7rem; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 3rem; display: flex; align-items: center; gap: 1rem;
+    }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--line); max-width: 60px; }
+
+    /* GARTNER CHART */
+    .chart-section {
+      padding: 6rem 4rem; border-top: 1px solid var(--line);
+      display: grid; grid-template-columns: 1.2fr 1fr; gap: 5rem; align-items: center;
+    }
+
+    .chart-title-inline {
+      font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700;
+      margin-bottom: 1.5rem; color: var(--ink);
+    }
+
+    .chart-bars {
+      display: flex; align-items: flex-end; gap: 8px; height: 200px;
+      padding-bottom: 2rem; border-bottom: 1px solid var(--line);
+    }
+
+    .chart-bar-group {
+      display: flex; flex-direction: column; align-items: center;
+      flex: 1; height: 100%; justify-content: flex-end;
+    }
+
+    .chart-bar {
+      width: 100%; background: var(--ink); border-radius: 2px 2px 0 0; transition: background 0.2s;
+    }
+
+    .chart-bar.projected {
+      background: repeating-linear-gradient(
+        45deg, var(--accent), var(--accent) 3px,
+        rgba(200,135,58,0.25) 3px, rgba(200,135,58,0.25) 8px
+      );
+    }
+    .chart-bar:hover { background: var(--accent); }
+    .chart-bar.projected:hover { background: var(--accent); }
+
+    .bar-value { font-size: 0.58rem; font-weight: 500; color: var(--ink); margin-bottom: 4px; white-space: nowrap; }
+    .bar-label { font-size: 0.6rem; color: var(--muted); margin-top: 6px; text-align: center; }
+
+    .chart-legend { display: flex; gap: 1.5rem; margin-top: 1rem; }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.7rem; color: var(--muted); }
+    .legend-dot { width: 10px; height: 10px; border-radius: 1px; background: var(--ink); flex-shrink: 0; }
+    .legend-dot.projected {
+      background: repeating-linear-gradient(
+        45deg, var(--accent), var(--accent) 3px,
+        rgba(200,135,58,0.25) 3px, rgba(200,135,58,0.25) 8px
+      );
+    }
+
+    .chart-source { font-size: 0.62rem; color: var(--muted); margin-top: 0.8rem; font-style: italic; }
+
+    .chart-text h2 {
+      font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+      font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 1.5rem;
+    }
+    .chart-text h2 em { font-style: italic; color: var(--accent); }
+    .chart-text p { font-size: 0.95rem; font-weight: 300; line-height: 1.75; color: var(--muted); margin-bottom: 1.2rem; }
+    .chart-text p strong { color: var(--ink); font-weight: 500; }
+
+    /* SERVICES */
+    .services { background: var(--ink); color: var(--paper); padding: 6rem 4rem; }
+    .services .section-label { color: var(--accent); }
+    .services .section-label::after { background: rgba(245,240,232,0.15); }
+
+    .services-title {
+      font-family: 'Playfair Display', serif; font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 4rem; max-width: 560px;
+    }
+
+    .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(245,240,232,0.08); }
+
+    .service-card {
+      padding: 3rem; background: var(--ink); border: 1px solid rgba(245,240,232,0.08);
+      transition: background 0.25s; position: relative; overflow: hidden;
+    }
+    .service-card::before {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+    }
+    .service-card:hover { background: rgba(200,135,58,0.06); }
+    .service-card:hover::before { transform: scaleX(1); }
+
+    .service-num { font-family: 'Playfair Display', serif; font-size: 0.8rem; color: var(--accent); margin-bottom: 1.5rem; font-style: italic; }
+    .service-name { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 1.2rem; line-height: 1.2; }
+    .service-desc { font-size: 0.88rem; font-weight: 300; line-height: 1.7; color: rgba(245,240,232,0.6); margin-bottom: 1.5rem; }
+
+    .service-includes { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .service-includes li {
+      font-size: 0.8rem; color: rgba(245,240,232,0.45); padding-left: 1rem; position: relative; line-height: 1.5;
+    }
+    .service-includes li::before { content: '—'; position: absolute; left: 0; color: var(--accent); }
+
+    .service-price {
+      margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(245,240,232,0.1);
+      font-size: 0.8rem; color: var(--accent); font-style: italic;
+    }
+
+    /* WHY */
+    .why { display: grid; grid-template-columns: 1fr 1fr; padding: 0; }
+    .why-left { padding: 6rem 4rem; border-right: 1px solid var(--line); }
+    .why-right { padding: 6rem 4rem; }
+
+    .why-title {
+      font-family: 'Playfair Display', serif; font-size: clamp(2rem, 3vw, 3rem);
+      font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1.5rem;
+    }
+
+    .why-body { font-size: 0.95rem; font-weight: 300; line-height: 1.8; color: var(--muted); margin-bottom: 2rem; }
+
+    .credentials { list-style: none; display: flex; flex-direction: column; gap: 1px; }
+    .credential {
+      display: flex; align-items: center; gap: 1rem; padding: 1rem 0;
+      border-bottom: 1px solid var(--line); font-size: 0.88rem; font-weight: 400; color: var(--ink);
+    }
+    .credential-icon {
+      width: 26px; height: 26px; background: var(--accent); display: flex;
+      align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.7rem; color: white; font-weight: 700;
+    }
+
+    .process-steps { display: flex; flex-direction: column; }
+
+    .process-step {
+      padding: 1.5rem 0; border-bottom: 1px solid var(--line);
+      display: grid; grid-template-columns: 40px 1fr; gap: 1.5rem; align-items: start;
+    }
+
+    .step-num { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-style: italic; color: var(--accent); padding-top: 0.1rem; }
+    .step-content h4 { font-size: 0.9rem; font-weight: 500; margin-bottom: 0.3rem; }
+    .step-content p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+
+    .step-price-tag {
+      display: inline-block; margin-top: 0.5rem; font-size: 0.72rem; font-weight: 500;
+      color: var(--accent); border: 1px solid rgba(200,135,58,0.35); padding: 0.2rem 0.6rem; letter-spacing: 0.06em;
+    }
+
+    /* CONTACT */
+    .contact { background: var(--ink); color: var(--paper); text-align: center; padding: 8rem 4rem; }
+    .contact-eyebrow { font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 2rem; }
+
+    .contact-title {
+      font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 5vw, 5rem);
+      font-weight: 900; line-height: 1.0; letter-spacing: -0.03em; margin-bottom: 1.5rem;
+    }
+    .contact-title em { font-style: italic; color: var(--accent); }
+
+    .contact-sub {
+      font-size: 1rem; font-weight: 300; color: rgba(245,240,232,0.55); margin-bottom: 3.5rem;
+      max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.7;
+    }
+
+    .contact-email {
+      display: inline-block; font-family: 'Playfair Display', serif; font-size: 1.2rem;
+      font-style: italic; color: var(--paper); text-decoration: none;
+      border-bottom: 1px solid var(--accent); padding-bottom: 4px; margin-bottom: 3rem; transition: color 0.2s;
+    }
+    .contact-email:hover { color: var(--accent); }
+
+    .contact-links { display: flex; justify-content: center; gap: 2rem; }
+    .contact-link {
+      font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: rgba(245,240,232,0.4); text-decoration: none; transition: color 0.2s;
+    }
+    .contact-link:hover { color: var(--accent); }
+
+    footer {
+      padding: 1.5rem 4rem; border-top: 1px solid rgba(245,240,232,0.08);
+      display: flex; justify-content: space-between; align-items: center; background: var(--ink);
+    }
+    footer p { font-size: 0.75rem; color: rgba(245,240,232,0.25); }
+    .footer-certs { display: flex; gap: 1rem; }
+    .cert-badge {
+      font-size: 0.62rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(245,240,232,0.3); border: 1px solid rgba(245,240,232,0.12); padding: 0.3rem 0.6rem;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 2rem; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 6rem 2rem 3rem; border-right: none; border-bottom: 1px solid var(--line); }
+      .hero-right { padding: 3rem 2rem 4rem; }
+      .hero-stats { grid-template-columns: 1fr 1fr; }
+      .chart-section { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 2rem; }
+      .services { padding: 4rem 2rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .why { grid-template-columns: 1fr; }
+      .why-left { border-right: none; border-bottom: 1px solid var(--line); padding: 4rem 2rem; }
+      .why-right { padding: 4rem 2rem; }
+      .contact { padding: 5rem 2rem; }
+      footer { padding: 1.5rem 2rem; flex-direction: column; gap: 1rem; text-align: center; }
+    }
   </style>
 </head>
 <body>
-  <h1>Hola, soy Antonio</h1>
-  <p>FinOps & Cloud Negotiation Consultant</p>
+
+  <nav>
+    <a href="#" class="nav-logo">FinOps & Cloud Consulting</a>
+    <ul class="nav-links">
+      <li><a href="#mercado">Mercado</a></li>
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">FinOps & Cloud Negotiation · Santiago, Chile</p>
+      <h1 class="hero-title">Reduce lo<br>que pagas<br>por <em>cloud.</em></h1>
+      <p class="hero-desc">
+        Consultoría especializada en diagnóstico de contratos cloud y negociación con hyperscalers para empresas en Latinoamérica.
+      </p>
+      <div class="hero-ctas">
+        <a href="#contacto" class="btn-primary">Conversemos</a>
+        <a href="#servicios" class="btn-secondary">Ver servicios</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-bg-text">Cloud</div>
+      <div class="hero-stats">
+        <div class="stat-box">
+          <div class="stat-num">$300<span>M+</span></div>
+          <div class="stat-label">USD en contratos tecnológicos negociados</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">3<span>×</span></div>
+          <div class="stat-label">Certificado AWS · Azure · GCP</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">6<span>+</span></div>
+          <div class="stat-label">años liderando Procurement IT a nivel LATAM</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">$723<span>B</span></div>
+          <div class="stat-label">Gasto global en cloud en 2025 — y creciendo</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GARTNER CHART -->
+  <section class="chart-section" id="mercado">
+    <div class="chart-wrap reveal">
+      <p class="chart-title-inline">Gasto mundial en servicios cloud públicos (USD miles de millones)</p>
+      <div class="chart-bars">
+        <div class="chart-bar-group">
+          <span class="bar-value">$242B</span>
+          <div class="chart-bar" style="height:17%"></div>
+          <span class="bar-label">2019</span>
+        </div>
+        <div class="chart-bar-group">
+          <span class="bar-value">$371B</span>
+          <div class="chart-bar" style="height:26%"></div>
+          <span class="bar-label">2021</span>
+        </div>
+        <div class="chart-bar-group">
+          <span class="bar-value">$494B</span>
+          <div class="chart-bar" style="height:35%"></div>
+          <span class="bar-label">2022</span>
+        </div>
+        <div class="chart-bar-group">
+          <span class="bar-value">$564B</span>
+          <div class="chart-bar" style="height:40%"></div>
+          <span class="bar-label">2023</span>
+        </div>
+        <div class="chart-bar-group">
+          <span class="bar-value">$596B</span>
+          <div class="chart-bar" style="height:42%"></div>
+          <span class="bar-label">2024</span>
+        </div>
+        <div class="chart-bar-group">
+          <span class="bar-value">$723B</span>
+          <div class="chart-bar" style="height:51%"></div>
+          <span class="bar-label">2025</span>
+        </div>
+        <div class="chart-bar-group">
+          <span class="bar-value">~$880B</span>
+          <div class="chart-bar projected" style="height:62%"></div>
+          <span class="bar-label">2026E</span>
+        </div>
+        <div class="chart-bar-group">
+          <span class="bar-value">~$1.1T</span>
+          <div class="chart-bar projected" style="height:77%"></div>
+          <span class="bar-label">2027E</span>
+        </div>
+        <div class="chart-bar-group">
+          <span class="bar-value">~$1.3T</span>
+          <div class="chart-bar projected" style="height:91%"></div>
+          <span class="bar-label">2028E</span>
+        </div>
+        <div class="chart-bar-group">
+          <span class="bar-value">$1.42T</span>
+          <div class="chart-bar projected" style="height:100%"></div>
+          <span class="bar-label">2029E</span>
+        </div>
+      </div>
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-dot"></div><span>Gasto real</span></div>
+        <div class="legend-item"><div class="legend-dot projected"></div><span>Proyección Gartner</span></div>
+      </div>
+      <p class="chart-source">Fuente: Gartner, Forecast: Public Cloud Services Worldwide, 2023–2029 (1Q25 Update).</p>
+    </div>
+
+    <div class="chart-text">
+      <p class="section-label">El mercado</p>
+      <h2 class="reveal">El gasto en cloud <em>ya no para.</em> ¿Quién lo controla?</h2>
+      <p class="reveal">
+        El gasto global en cloud superará <strong>$1.4 trillion antes de 2030</strong>. La IA generativa y la migración de cargas críticas lo están acelerando a más del 20% anual.
+      </p>
+      <p class="reveal">
+        Las empresas latinoamericanas enfrentan contratos cada vez más complejos, estructuras de descuento opacas y renovaciones que se negocian en desventaja frente a los hyperscalers. <strong>El costo de no optimizar crece junto con el gasto.</strong>
+      </p>
+      <p class="reveal">
+        Los contratos cloud son instrumentos financieros con palancas de negociación que la mayoría de los equipos internos no conoce. Ahí es donde entramos nosotros.
+      </p>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="servicios">
+    <p class="section-label">Servicios</p>
+    <h2 class="services-title reveal">Dos etapas. Un solo objetivo: que pagues menos.</h2>
+    <div class="services-grid">
+
+      <div class="service-card reveal">
+        <p class="service-num">Etapa 01</p>
+        <h3 class="service-name">Diagnóstico del Contrato Cloud</h3>
+        <p class="service-desc">
+          Análisis exhaustivo de tu contrato actual con el hyperscaler: entendemos exactamente qué tienes, qué estás dejando sobre la mesa y cuál es tu posición real de negociación.
+        </p>
+        <ul class="service-includes">
+          <li>Revisión completa del contrato y sus anexos</li>
+          <li>Análisis de la estructura de descuentos (EDP, MACC, PPA)</li>
+          <li>Evaluación del uso de CUDs / RIs / Savings Plans</li>
+          <li>Auditoría de uso del Marketplace y su impacto en compromisos</li>
+          <li>Identificación de riesgos contractuales y oportunidades</li>
+          <li>Reporte ejecutivo con recomendaciones priorizadas</li>
+        </ul>
+        <p class="service-price">Precio de entrada: USD 5.000</p>
+      </div>
+
+      <div class="service-card reveal">
+        <p class="service-num">Etapa 02</p>
+        <h3 class="service-name">Negociación y Cierre del Contrato</h3>
+        <p class="service-desc">
+          Acompañamiento estratégico en el proceso de renegociación con tu proveedor cloud, desde la preparación del caso de negocio hasta la firma del contrato optimizado.
+        </p>
+        <ul class="service-includes">
+          <li>Construcción del caso de negocio y targets por proveedor</li>
+          <li>Playbook de negociación basado en el diagnóstico</li>
+          <li>Acompañamiento en reuniones con el equipo del hyperscaler</li>
+          <li>Revisión y validación de las condiciones propuestas</li>
+          <li>Apoyo hasta la firma del contrato final</li>
+        </ul>
+        <p class="service-price">Fee estructurado según ahorro obtenido</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- WHY / APPROACH -->
+  <section class="why" id="nosotros">
+    <div class="why-left">
+      <p class="section-label">Por qué nosotros</p>
+      <h2 class="why-title reveal">Vinimos del<br>otro lado<br>de la mesa.</h2>
+      <p class="why-body reveal">
+        No somos una consultora genérica de cloud. Venimos de años negociando contratos de ocho cifras con AWS, Microsoft y Google para una de las empresas más complejas tecnológicamente de Latinoamérica.
+      </p>
+      <p class="why-body reveal">
+        Conocemos los ciclos de venta de los hyperscalers, sus estructuras de incentivos y las palancas reales que mueven la aguja en una negociación.
+      </p>
+      <ul class="credentials reveal">
+        <li class="credential">
+          <span class="credential-icon">✓</span>
+          Triple certificación cloud: AWS · Azure · GCP
+        </li>
+        <li class="credential">
+          <span class="credential-icon">✓</span>
+          FinOps Certified Practitioner — uno de los pocos certificados en Chile
+        </li>
+        <li class="credential">
+          <span class="credential-icon">✓</span>
+          +$300M USD en contratos IT negociados directamente
+        </li>
+        <li class="credential">
+          <span class="credential-icon">✓</span>
+          Relaciones directas con liderazgo de ventas hyperscaler en LATAM
+        </li>
+        <li class="credential">
+          <span class="credential-icon">✓</span>
+          Experiencia en aerolíneas y empresas de clase mundial en la región
+        </li>
+      </ul>
+    </div>
+    <div class="why-right">
+      <p class="section-label">Cómo trabajamos</p>
+      <h3 class="why-title reveal" style="font-size: 1.6rem;">El proceso</h3>
+      <div class="process-steps reveal">
+        <div class="process-step">
+          <span class="step-num">I</span>
+          <div class="step-content">
+            <h4>Llamada inicial</h4>
+            <p>Conversación sin costo para entender tu situación, los contratos vigentes y si hay fit para trabajar juntos.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <span class="step-num">II</span>
+          <div class="step-content">
+            <h4>Diagnóstico del contrato</h4>
+            <p>Análisis completo de estructura de descuentos, CUDs y Marketplace. Entregamos un reporte ejecutivo con hallazgos y recomendaciones.</p>
+            <span class="step-price-tag">USD 5.000</span>
+          </div>
+        </div>
+        <div class="process-step">
+          <span class="step-num">III</span>
+          <div class="step-content">
+            <h4>Estrategia de negociación</h4>
+            <p>Construimos el caso de negocio, el playbook y los targets concretos para cada proveedor.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <span class="step-num">IV</span>
+          <div class="step-content">
+            <h4>Acompañamiento y cierre</h4>
+            <p>Estamos contigo en la negociación hasta que el contrato esté firmado con las condiciones acordadas.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contacto">
+    <p class="contact-eyebrow">Conversemos</p>
+    <h2 class="contact-title reveal">¿Cuánto estás<br><em>pagando de más?</em></h2>
+    <p class="contact-sub reveal">
+      Una llamada de 30 minutos es suficiente para saber si hay oportunidad. Sin compromiso.
+    </p>
+    <a href="mailto:contacto@tudominio.cl" class="contact-email reveal">contacto@tudominio.cl</a>
+    <div class="contact-links reveal">
+      <a href="https://linkedin.com/in/tu-perfil" class="contact-link" target="_blank">LinkedIn</a>
+      <a href="mailto:contacto@tudominio.cl" class="contact-link">Email directo</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 · Santiago, Chile · FinOps & Cloud Negotiation Consulting</p>
+    <div class="footer-certs">
+      <span class="cert-badge">AWS Certified</span>
+      <span class="cert-badge">Azure Certified</span>
+      <span class="cert-badge">GCP Certified</span>
+      <span class="cert-badge">FinOps Certified</span>
+    </div>
+  </footer>
+
+  <script>
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+
 </body>
 </html>
